@@ -7,11 +7,11 @@ namespace TodoApi.Models
 {
     public class FootBaller
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Team { get; set; }
 
-        public FootBaller(int v1, string v2, string v3)
+        public FootBaller(string v1, string v2, string v3)
         {
             this.Id = v1;
             this.Name = v2;

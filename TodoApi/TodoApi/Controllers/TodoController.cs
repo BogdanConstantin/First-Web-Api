@@ -27,12 +27,18 @@ namespace TodoApi.Controllers
 
         [HttpGet("{id}", Name = "GetTodo")]
 
-        public ActionResult<FootBaller> getItem(long id)
+        public ActionResult<FootBaller> getItem(string id)
         {
+            var item = _context.SearchItem(id);
+            if (item == null)
+            {
+                NotFound();
+            }
+
             return _context.SearchItem(id);
         }
 
-    [HttpPost]
+        [HttpPost]
         public IActionResult Create([FromBody] FootBaller item)
         {
             _context.add(item);
@@ -40,7 +46,7 @@ namespace TodoApi.Controllers
         }
 
        [HttpPut("{id}")]
-        public IActionResult Update(long id, FootBaller item)
+        public IActionResult Update(string id, FootBaller item)
         {
             var todo = _context.updateItem(id,item);
             if (todo == null)
@@ -51,7 +57,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(string id)
         {
             _context.deleteItem(id);
 

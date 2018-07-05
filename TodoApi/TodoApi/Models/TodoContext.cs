@@ -13,14 +13,15 @@ namespace TodoApi.Models
     public class Singleton
     {
         private static Singleton instance;
-        private System.Collections.Generic.List<FootBaller> ListItem;
+        private System.Collections.Generic.List<FootBaller> FootBallers;
+       
 
         public void Seed()
         {
-            ListItem = new System.Collections.Generic.List<FootBaller>();
-            ListItem.Add(new FootBaller(1,"Cristi","Real"));
-            ListItem.Add(new FootBaller(2, "Leo", "Barca"));
-            ListItem.Add(new FootBaller(3, "Romelu", "United"));
+            FootBallers = new System.Collections.Generic.List<FootBaller>();
+            FootBallers.Add(new FootBaller(Guid.NewGuid().ToString(), "Cristi","Real"));
+            FootBallers.Add(new FootBaller(Guid.NewGuid().ToString(), "Leo", "Barca"));
+            FootBallers.Add(new FootBaller(Guid.NewGuid().ToString(), "Romelu", "United"));
         }
 
         private Singleton()
@@ -46,46 +47,46 @@ namespace TodoApi.Models
 
         public List<FootBaller> getAll()
         {
-            return ListItem;
+            return FootBallers;
         }
 
         public void add(FootBaller item)
         {
-            if (item.Id <= ListItem.Count)
-                item.Id = ListItem.Count+1;
-            ListItem.Add(item);
+            Guid id = Guid.NewGuid();
+            item.Id = id.ToString();
+            FootBallers.Add(item);
         }
 
-        public FootBaller SearchItem(long id)
+        public FootBaller SearchItem(string id)
         {
-            for (int i = 0; i < ListItem.Count; i++)
-                if (ListItem[i].Id == id)
+            for (int i = 0; i < FootBallers.Count; i++)
+                if (FootBallers[i].Id == id)
                 {
-                    return ListItem[i];
+                    return FootBallers[i];
                 }
 
             return null;
  
         }
 
-        public FootBaller updateItem(long id,FootBaller item)
+        public FootBaller updateItem(string id,FootBaller item)
         {
-            for(int i =0; i<ListItem.Count; i++)
-                if (ListItem[i].Id == id)
+            for(int i =0; i<FootBallers.Count; i++)
+                if (FootBallers[i].Id == id)
                 {
-                    ListItem[i].Team = item.Team;
-                    ListItem[i].Name = item.Name;
-                    return ListItem[i];
+                    FootBallers[i].Team = item.Team;
+                    FootBallers[i].Name = item.Name;
+                    return FootBallers[i];
                 }
             return null;
         }
 
-        public bool deleteItem(long id)
+        public bool deleteItem(string id)
         {
-            for (int i = 0; i < ListItem.Count; i++)
-                if (ListItem[i].Id == id)
+            for (int i = 0; i < FootBallers.Count; i++)
+                if (FootBallers[i].Id == id)
                 {
-                    ListItem.RemoveAt(i);
+                    FootBallers.RemoveAt(i);
                     return true;
                 }
 
