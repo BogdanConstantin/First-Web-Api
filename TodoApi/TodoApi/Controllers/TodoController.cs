@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using TodoApi.Models;
@@ -15,66 +16,48 @@ namespace TodoApi.Controllers
         {
             _context = Singleton.Instance;
 
-        }  
-        
+        }
+
         [HttpGet]
 
-        public ActionResult<List<TodoItem>> GetAll()
-    {
-    return _context.getAll();
-    }
+        public ActionResult<List<FootBaller>> GetAll()
+        {
+            return _context.getAll();
+        }
 
+        [HttpGet("{id}", Name = "GetTodo")]
 
-        [HttpPost]
-        public IActionResult Create(TodoItem item)
+        public ActionResult<FootBaller> getItem(long id)
+        {
+            return _context.SearchItem(id);
+        }
+
+    [HttpPost]
+        public IActionResult Create([FromBody] FootBaller item)
         {
             _context.add(item);
-            //_context.SaveChanges();
-
             return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
         }
 
-//        [HttpPut("{id}")]
-//        public IActionResult Update(long id, TodoItem item)
-//        {
-//            var todo = _context.TodoItems.Find(id);
-//            if (todo == null)
-//            {
-//                return NotFound();
-//            }
+       [HttpPut("{id}")]
+        public IActionResult Update(long id, FootBaller item)
+        {
+            var todo = _context.updateItem(id,item);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
 
-//            todo.IsComplete = item.IsComplete;
-//            todo.Name = item.Name;
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            _context.deleteItem(id);
 
-//            _context.TodoItems.Update(todo);
-//            _context.SaveChanges();
-//            return NoContent();
-//        }
 
-//        [HttpDelete("{id}")]
-//        public IActionResult Delete(long id)
-//        {
-//            var todo = _context.TodoItems.Find(id);
-//            if (todo == null)
-//            {
-//                return NotFound();
-//            }
-
-//            _context.TodoItems.Remove(todo);
-//            _context.SaveChanges();
-//            return NoContent();
-//        }
-
-//        [HttpGet("{id}", Name = "GetTodo")]
-//          public ActionResult<TodoItem> GetById(long id)
-//        {
-//          var item = _context.TodoItems.Find(id);
-//          if (item == null)
-//          {
-//            return NotFound();
-//          }
-//          return item;
-//}
+            return NoContent();
+        }
 
     }
 }
